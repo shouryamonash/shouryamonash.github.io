@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shourya Jain | Engineering & AI Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+
+        :root {
+            --brand-orange: #ff6b00;
+            --deep-black: #050505;
+            --silver-glow: rgba(192, 192, 192, 0.3);
+            --silver-border: rgba(192, 192, 192, 0.15);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--deep-black);
+            color: #ffffff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .texture {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .grid-pattern {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(var(--silver-border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+        }
+
+        /* --- UNIQUE COMPONENT STYLES --- */
+        .academic-card {
+            border-left: 4px solid var(--brand-orange);
+            background: linear-gradient(90deg, rgba(255, 107, 0, 0.05) 0%, transparent 100%);
+            border-radius: 0 20px 20px 0;
+            transition: all 0.4s ease;
+        }
+
+        .experience-bracket {
+            position: relative;
+            border-left: 1px solid var(--silver-border);
+            padding-left: 2rem;
+        }
+
+        .experience-bracket::before {
+            content: '';
+            position: absolute;
+            left: -5px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            background: var(--brand-orange);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--brand-orange);
+        }
+
+        .project-glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--silver-border);
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-glass:hover {
+            border-color: var(--brand-orange);
+            background: rgba(255, 107, 0, 0.05);
+            transform: translateY(-10px);
+        }
+
+        .silver-glow-btn {
+            border: 1px solid var(--silver-border);
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .silver-glow-btn:hover {
+            border-color: #fff;
+            box-shadow: 0 0 25px var(--silver-glow);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .skill-node {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease forwards;
+            border: 2px solid black;
+            background: var(--brand-orange);
+            color: black;
+            font-weight: 900;
+            transform: skewX(-10deg);
+        }
+
+        /* Stagger delays */
+        .skill-node:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .skill-node:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .skill-node:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .skill-node:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .skill-node:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        .skill-node:nth-child(6) {
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="texture"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-[100] py-6 px-10">
+        <div
+            class="max-w-7xl mx-auto flex justify-between items-center bg-black/50 backdrop-blur-xl border border-white/10 rounded-full px-8 py-3">
+            <div class="text-2xl font-black tracking-tighter">S<span class="text-[#ff6b00]">J</span></div>
+            <div class="hidden md:flex space-x-10 text-[10px] uppercase tracking-[0.3em] font-bold">
+                <a href="#about" class="hover:text-[#ff6b00] transition-colors">Academic</a>
+                <a href="#experience" class="hover:text-[#ff6b00] transition-colors">Experience</a>
+                <a href="#projects" class="hover:text-[#ff6b00] transition-colors">Projects</a>
+                <a href="#skills" class="hover:text-[#ff6b00] transition-colors">Skills</a>
+                <a href="#contact" class="hover:text-[#ff6b00] transition-colors">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
+        <!-- Ambient Depth -->
+        <div class="absolute top-1/3 left-1/3 w-[20rem] h-[20rem] bg-[#ff6b00]/5 blur-[100px] pointer-events-none z-0">
+        </div>
+        <div class="grid-pattern"></div>
+
+        <!-- Industrial Geometric Shapes -->
+        <div
+            class="absolute top-[15%] left-[5%] md:left-[10%] w-48 h-48 border-[1px] border-white/10 pointer-events-none z-0">
+        </div>
+        <div
+            class="absolute top-[25%] left-[5%] md:left-[12%] w-24 h-24 border-[1px] border-[#ff6b00]/20 pointer-events-none z-0">
+        </div>
+        <div class="absolute bottom-[10%] right-[10%] w-72 h-72 border border-white/5 pointer-events-none z-0"></div>
+        <div
+            class="absolute top-[15%] right-[20%] text-white/20 font-light text-2xl tracking-[1em] pointer-events-none z-0">
+            ++</div>
+        <div class="absolute bottom-[30%] left-[15%] text-white/20 font-light text-2xl pointer-events-none z-0">+</div>
+
+        <div class="max-w-5xl w-full text-center relative z-10 flex flex-col items-center">
+
+            <!-- Refined Badge -->
+            <div
+                class="inline-flex items-center gap-3 px-5 py-2 border border-white/20 text-slate-300 text-[10px] font-semibold tracking-[0.4em] uppercase mb-10 bg-black/60 shadow-sm backdrop-blur-sm">
+                <span class="w-1.5 h-1.5 bg-[#ff6b00]"></span>
+                Melbourne, VIC • Monash University
+            </div>
+
+            <!-- Resized & Professional Typography -->
+            <h1 class="text-6xl md:text-[8rem] lg:text-[10rem] font-bold leading-[0.85] tracking-tighter mb-8 text-white uppercase"
+                style="font-family: inherit;">
+                SHOURYA <br>
+                <span class="text-transparent" style="-webkit-text-stroke: 2px rgba(255,255,255,0.4);">
+                    JAIN
+                </span>
+            </h1>
+
+            <p
+                class="text-slate-400 text-xs md:text-base font-medium tracking-[0.1em] md:tracking-[0.2em] max-w-2xl mx-auto mb-12 leading-relaxed uppercase">
+                Software Engineering student building <span class="text-white">robust systems</span> <br
+                    class="hidden md:block"> &amp;
+                <span class="text-[#ff6b00]">high-performance</span> AI architectures.
+            </p>
+
+            <!-- Adjusted Professional Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6">
+                <button onclick="downloadCV()"
+                    class="bg-[#ff6b00] text-black px-10 py-4 font-black text-xs uppercase tracking-[0.2em] transition-colors hover:bg-white border border-[#ff6b00] hover:border-white">
+                    Download CV
+                </button>
+                <a href="#projects"
+                    class="px-10 py-4 font-bold text-xs uppercase tracking-[0.2em] border border-white/30 bg-black hover:bg-white/10 transition-colors text-white">
+                    Explore Work
+                </a>
+            </div>
+
+            <!-- Static Scroll Indicator -->
+            <div class="absolute -bottom-20 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 text-slate-500">
+                <span class="text-[9px] font-bold uppercase tracking-[0.4em]">Scroll</span>
+                <div class="w-[1px] h-10 bg-white/20"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academic Section (All data from skills.html and more) -->
+    <section id="about" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-6 mb-20 justify-center">
+                <div class="h-[2px] w-12 md:w-32 bg-gradient-to-l from-[#ff6b00]/40 to-transparent"></div>
+                <span class="text-5xl md:text-7xl font-black text-transparent"
+                    style="-webkit-text-stroke: 2px rgba(255,255,255,0.1);">01</span>
+                <h2 class="text-sm md:text-base font-black text-[#ff6b00] uppercase tracking-[0.4em]">Academic History
+                </h2>
+                <div class="h-[2px] w-12 md:w-32 bg-gradient-to-r from-[#ff6b00]/40 to-transparent"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-20">
+                <div class="space-y-8">
+                    <!-- High School -->
+                    <div class="academic-card p-8">
+                        <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">2023 — 2025</span>
+                        <h4 class="text-2xl font-bold mt-1">Delhi Public School</h4>
+                        <p class="text-slate-400 text-sm mb-4">Non-Medical Stream (Physics, Chemistry, Maths)</p>
+                        <div class="text-4xl font-black text-[#ff6b00]">96.6%</div>
+                    </div>
+                    <!-- MITS Course -->
+                    <div class="academic-card p-8">
+                        <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">2025
+                            Specialist</span>
+                        <h4 class="text-2xl font-bold mt-1">MITS Academy, Amritsar</h4>
+                        <p class="text-slate-400 text-sm">3-Month Specialized Data Visualisation Course</p>
+                        <div class="text-xl font-bold text-white mt-2 italic">PowerBI, MySQL, Excel, Python</div>
+                    </div>
+                    <!-- JEE -->
+                    <div class="academic-card p-8 border-white/20">
+                        <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Competitive
+                            Exam</span>
+                        <h4 class="text-2xl font-bold mt-1">JEE Mains 2025</h4>
+                        <div class="text-4xl font-black text-transparent" style="-webkit-text-stroke: 1px #fff;">95.6
+                            Percentile</div>
+                    </div>
+                </div>
+
+                <div class="bg-white/5 rounded-3xl p-10 border border-white/10">
+                    <h3 class="text-2xl font-black mb-8 uppercase tracking-tighter">Current Enrollment</h3>
+                    <div class="mb-10">
+                        <h4 class="text-xs font-black text-[#ff6b00] uppercase mb-1">Monash University, Australia</h4>
+                        <p class="text-2xl font-bold">B. Engineering (Honours)</p>
+                        <p class="text-slate-500 text-sm mt-1 uppercase tracking-widest">Specialization in Software //
+                            2030 Grad</p>
+                    </div>
+
+                    <div class="space-y-6 pt-10 border-t border-white/10">
+                        <div>
+                            <div class="flex justify-between mb-2 text-[10px] font-black uppercase tracking-widest">
+                                <span>SAT Score</span><span>1390/1600</span>
+                            </div>
+                            <div class="w-full h-1 bg-white/10">
+                                <div class="h-full bg-[#ff6b00]" style="width: 86%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2 text-[10px] font-black uppercase tracking-widest">
+                                <span>IELTS Academic</span><span>7.5 Overall</span>
+                            </div>
+                            <div class="w-full h-1 bg-white/10">
+                                <div class="h-full bg-[#ff6b00]" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section (All data from experience.html) -->
+    <section id="experience" class="py-32 px-6 bg-white/[0.02]">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-6 mb-20 justify-center">
+                <div class="h-[2px] w-12 md:w-32 bg-gradient-to-l from-[#ff6b00]/40 to-transparent"></div>
+                <span class="text-5xl md:text-7xl font-black text-transparent"
+                    style="-webkit-text-stroke: 2px rgba(255,255,255,0.1);">02</span>
+                <h2 class="text-sm md:text-base font-black text-[#ff6b00] uppercase tracking-[0.4em]">Professional
+                    Impact</h2>
+                <div class="h-[2px] w-12 md:w-32 bg-gradient-to-r from-[#ff6b00]/40 to-transparent"></div>
+            </div>
+            <div class="space-y-24">
+                <!-- MITS -->
+                <div class="experience-bracket">
+                    <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">OCT 2025 — JAN
+                        2026</span>
+                    <h3 class="text-3xl font-black mt-2 uppercase">MITS Academy</h3>
+                    <p class="text-[#ff6b00] font-bold text-sm uppercase tracking-widest mb-6">IT Operations Intern</p>
+                    <ul class="text-slate-400 space-y-4 text-lg">
+                        <li class="flex gap-4"><span>—</span> Managed and debugged internal management portals used for
+                            vital student data, class timetables, teacher schedules, and grading systems.</li>
+                        <li class="flex gap-4"><span>—</span> Applied "vibe coding" for rapid prototyping using Google
+                            AI Studio and Figma to overhaul corporate web designs for MITS Solution and MITS Academy.
+                        </li>
+                    </ul>
+                </div>
+                <!-- Mission Deep -->
+                <div class="experience-bracket">
+                    <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">DEC 2024</span>
+                    <h3 class="text-3xl font-black mt-2 uppercase">Mission Deep</h3>
+                    <p class="text-[#ff6b00] font-bold text-sm uppercase tracking-widest mb-6">Science Project Judge</p>
+                    <ul class="text-slate-400 space-y-4 text-lg">
+                        <li class="flex gap-4"><span>—</span> Mentored underprivileged children from BPL families,
+                            fostering interest in STEM subjects and discoveries in Aerospace.</li>
+                        <li class="flex gap-4"><span>—</span> Evaluated and graded over 100+ student projects, providing
+                            up-to-date knowledge on AI and Machine Learning trends.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-6 mb-20 justify-center">
+                <div class="h-[2px] w-12 md:w-32 bg-gradient-to-l from-[#ff6b00]/40 to-transparent"></div>
+                <span class="text-5xl md:text-7xl font-black text-transparent"
+                    style="-webkit-text-stroke: 2px rgba(255,255,255,0.1);">03</span>
+                <h2 class="text-sm md:text-base font-black text-[#ff6b00] uppercase tracking-[0.4em]">Deployments</h2>
+                <div class="h-[2px] w-12 md:w-32 bg-gradient-to-r from-[#ff6b00]/40 to-transparent"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- GlobeTales -->
+                <div class="project-glass p-8 group">
+                    <div class="text-4xl mb-6 group-hover:scale-110 transition-transform">🌍</div>
+                    <h4 class="text-xl font-black uppercase mb-4 tracking-tighter">GlobeTales</h4>
+                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">Country profiling tool featuring flags,
+                        currencies, regions, and real-time historical fact extraction.</p>
+                    <a href="https://globetales123.netlify.app/" target="_blank"
+                        class="text-[10px] font-black text-[#ff6b00] uppercase tracking-widest border-b-2 border-[#ff6b00]">Launch
+                        System</a>
+                </div>
+                <!-- OChem -->
+                <div class="project-glass p-8 group">
+                    <div class="text-4xl mb-6 group-hover:scale-110 transition-transform">🧪</div>
+                    <h4 class="text-xl font-black uppercase mb-4 tracking-tighter">OChem</h4>
+                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">The only truly free Organic Compound Namer
+                        available online. High-precision nomenclature tool.</p>
+                    <a href="https://ochem.netlify.app/" target="_blank"
+                        class="text-[10px] font-black text-[#ff6b00] uppercase tracking-widest border-b-2 border-[#ff6b00]">Launch
+                        System</a>
+                </div>
+                <!-- SpaceLinked -->
+                <div class="project-glass p-8 group">
+                    <div class="text-4xl mb-6 group-hover:scale-110 transition-transform">🚀</div>
+                    <h4 class="text-xl font-black uppercase mb-4 tracking-tighter">SpaceLinked</h4>
+                    <p class="text-slate-500 text-sm mb-8 leading-relaxed">Real-time ISS tracking and astronaut
+                        demographics visualization using live orbital APIs.</p>
+                    <a href="https://spacelinked123.netlify.app/" target="_blank"
+                        class="text-[10px] font-black text-[#ff6b00] uppercase tracking-widest border-b-2 border-[#ff6b00]">Launch
+                        System</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Stack Section (All data from skills.html) -->
+    <section id="skills" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto py-20">
+            <div class="flex items-center gap-6 mb-20 justify-center">
+                <div class="h-[2px] w-12 md:w-32 bg-gradient-to-l from-[#ff6b00]/40 to-transparent"></div>
+                <span class="text-5xl md:text-7xl font-black text-transparent"
+                    style="-webkit-text-stroke: 2px rgba(255,255,255,0.1);">04</span>
+                <h2 class="text-sm md:text-base font-black text-[#ff6b00] uppercase tracking-[0.4em]">Technical Stack
+                </h2>
+                <div class="h-[2px] w-12 md:w-32 bg-gradient-to-r from-[#ff6b00]/40 to-transparent"></div>
+            </div>
+            <div class="grid md:grid-cols-2 gap-20 items-center">
+                <div>
+                    <h2 class="text-5xl font-black uppercase mb-10">Technical <br><span
+                            class="text-[#ff6b00]">Stack</span></h2>
+                    <div class="space-y-6">
+                        <div class="p-6 bg-white/5 rounded-2xl border border-white/5">
+                            <h4 class="text-[10px] font-black text-[#ff6b00] uppercase mb-4 tracking-widest">
+                                Certifications</h4>
+                            <ul class="text-xs space-y-3 font-bold text-slate-400">
+                                <li class="flex items-center gap-3"><i class="fas fa-check text-[#ff6b00]"></i>
+                                    SUPERVISED MACHINE LEARNING (COURSERA)</li>
+                                <li class="flex items-center gap-3"><i class="fas fa-check text-[#ff6b00]"></i>
+                                    ADVANCED LEARNING ALGORITHMS (COURSERA)</li>
+                                <li class="flex items-center gap-3"><i class="fas fa-check text-[#ff6b00]"></i>
+                                    SPELLQUEST STATE SILVER MEDALIST</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="skill-node p-6 text-center">PYTHON</div>
+                    <div class="skill-node p-6 text-center">MACHINE LEARNING</div>
+                    <div class="skill-node p-6 text-center">MYSQL</div>
+                    <div class="skill-node p-6 text-center">JAVA</div>
+                    <div class="skill-node p-6 text-center">POWER BI</div>
+                    <div class="skill-node p-6 text-center">BACKEND DEV</div>
+                    <div class="skill-node p-6 text-center col-span-2">120 WPM TYPING SPEED</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-[#0a0a0a] pt-32 pb-12 px-6 border-t border-white/10">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-20">
+            <div>
+                <h2 class="text-5xl md:text-7xl font-black mb-8 leading-none uppercase tracking-tighter">Let's <br><span
+                        class="text-[#ff6b00]">Connect</span></h2>
+                <p class="text-slate-400 text-sm mb-12 max-w-md leading-relaxed">
+                    I am actively seeking internship opportunities in Software Engineering and interactive systems.
+                    Let's discuss how my skills can bring value to your team.
+                </p>
+                <div class="space-y-6">
+                    <a href="mailto:shouryashourya2020@gmail.com"
+                        class="group flex items-center gap-4 text-lg font-bold hover:text-[#ff6b00] transition-colors w-fit">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-[#ff6b00]/10 border border-white/10 group-hover:border-[#ff6b00]/30 transition-all">
+                            <i class="fas fa-envelope text-[#ff6b00]"></i>
+                        </div>
+                        shouryashourya2020@gmail.com
+                    </a>
+                    <div class="flex items-center gap-4 text-lg font-bold w-fit text-slate-300">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                            <i class="fas fa-map-marker-alt text-[#ff6b00]"></i>
+                        </div>
+                        Available in Melbourne & Remote
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-end">
+                <div class="bg-white/5 p-10 rounded-3xl border border-white/10 space-y-8">
+                    <div>
+                        <h4 class="text-[10px] font-black text-[#ff6b00] uppercase tracking-[0.3em] mb-4">Professional
+                            Networks</h4>
+                        <div class="flex gap-4">
+                            <a href="https://www.linkedin.com/in/shouryajain2007/" target="_blank"
+                                class="flex-1 bg-white/5 hover:bg-[#ff6b00] hover:text-black transition-colors py-4 rounded-xl text-center font-bold text-sm border border-white/10">
+                                <i class="fab fa-linkedin mb-2 text-xl block"></i> LinkedIn
+                            </a>
+                            <a href="https://github.com/jainshourya" target="_blank"
+                                class="flex-1 bg-white/5 hover:bg-white hover:text-black transition-colors py-4 rounded-xl text-center font-bold text-sm border border-white/10">
+                                <i class="fab fa-github mb-2 text-xl block"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] font-black text-[#ff6b00] uppercase tracking-[0.3em] mb-4">Quick
+                            Navigation</h4>
+                        <div class="flex flex-wrap gap-4 text-sm font-bold text-slate-400">
+                            <a href="#" class="hover:text-white transition-colors">Home</a>
+                            <span class="text-white/20">•</span>
+                            <a href="#about" class="hover:text-white transition-colors">Academic</a>
+                            <span class="text-white/20">•</span>
+                            <a href="#experience" class="hover:text-white transition-colors">Experience</a>
+                            <span class="text-white/20">•</span>
+                            <a href="#projects" class="hover:text-white transition-colors">Projects</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto mt-24 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+            <!-- <span>© 2026 Shourya Jain. All rights reserved.</span> -->
+            <!-- <span>Built with passion // Monash University</span> -->
+        </div>
+    </footer>
+
+    <script>
+        function downloadCV() {
+            const link = document.createElement('a');
+            link.href = 'Shourya_Jain_CV.pdf';
+            link.download = 'Shourya_Jain_CV.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+
+</html>
